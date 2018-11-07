@@ -11,6 +11,7 @@ class User {
     }
 // CREATE
     static createUser(name,age){
+
         return db.one(`insert into users
         (name,age)
         values
@@ -35,6 +36,8 @@ class User {
     // Update
 
     updateUserName(name){
+        this.name = name
+
         return db.any(`update users set name=$1 where id=$2`,[name,this.id])
     }
 }
