@@ -37,10 +37,23 @@ class User {
 
     updateUserName(name){
         this.name = name
+        return db.result(`update users set name=$1 where id=$2`,[name,this.id])
+            .then(console.log)  
+        // .then(data => {
+            //     return new User (this.id, this.name, this.age)
+            // })
+    }
 
-        return db.any(`update users set name=$1 where id=$2`,[name,this.id])
+    // Delete
+
+
+    deleteUser(){
+
+        return db.result('delete from users where id=$1',[this.id])
+    
     }
 }
+
 
 
 
