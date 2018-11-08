@@ -1,21 +1,27 @@
 require('dotenv').config();
+
+
+const express = require('express');
+const app = express();
+
+
 const users = require('./models/users');
 
-users.createUser("NEWUSER100",10)
-users.createUser("NEWUSER100",20)
-users.createUser("NEWUSER100",30)
-.then(data => data.deleteUser())
-users.createUser("NEWUSER100",40)
-.then(data => data.deleteUser())
-users.createUser("NEWUSER100",50)
-    // .then(console.log)
 
-// users.getUserByID(2)
-//     // .then(console.log)
-//     // .then(data => {data.updateUserName("Ch")})
-//     .then(console.log)
+app.get('/users',(req,res) => {
+    // need to add a get all
+    users.getUserByID(1)
+        .then(user => {
+            res.send(user);
+        })
+});
+app.get('/users/:id([0-9]+)',(req,res) => {
+    users.getUserByID(req.params.id)
+        .then(user => {
+            res.send(user)
+        })
+});
 
-
-// carlos = new users(1,'carlos',24)
-
-// carlos.updateUserName("Charles")
+app.listen(3000, () => {
+    console.log('your express app is readddddy')
+});
