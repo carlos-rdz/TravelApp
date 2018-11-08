@@ -22,6 +22,17 @@ class User {
             })
 }
     // RETRIEVE
+
+    static getAll(){
+        return db.any(`select * from users`)
+            .then(dataArray => {
+                let newArray = dataArray.map(element => {
+                    return new User (element.id, element.name, element.age)
+                });
+                return newArray
+            })
+    }
+
     static getUserByID(id){
         return db.one(
             `select * from users
@@ -30,6 +41,7 @@ class User {
             .then(data => {
                 return new User (data.id, data.name, data.age)
             })
+            // .then(console.log)
     }
 
 
@@ -50,7 +62,7 @@ class User {
     deleteUser(){
 
         return db.result('delete from users where id=$1',[this.id])
-    
+        
     }
 }
 
