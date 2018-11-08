@@ -1,27 +1,22 @@
 require('dotenv').config();
 
-
 const express = require('express');
 const app = express();
 
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 
 const users = require('./models/users');
 const place = require('./models/place');
 
 
-// place.createPlace("newplace",1)
+// users.getUserByID(2)
+//     .then(data => {return data.updateAge(10000)})
 //     .then(console.log)
 
-
-
-// place.getPlaceById(1)
-//     .then(data => {
-//         console.log(data)})
-//     ;
-
-
-place.getAllPlaces()
-    .then(console.log)
+// place.getAllPlaces()
+//     .then(console.log)
 
 app.get('/users',(req,res) => {
     // need to add a get all
@@ -29,6 +24,17 @@ app.get('/users',(req,res) => {
         .then(users => {
             res.send(users);
         })
+});
+
+
+
+app.post('/users',(req,res) => {
+    // console.log(req.body);
+    users.createUser(req.body.name,req.body.age)
+        .then(theUser => {
+            res.send(theUser);
+        })
+    // res.send('ok')
 });
 
 app.get('/users/:id([0-9]+)',(req,res) => {

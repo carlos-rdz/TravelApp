@@ -50,7 +50,16 @@ class User {
     updateUserName(name){
         this.name = name
         return db.result(`update users set name=$1 where id=$2`,[name,this.id])
-            .then(console.log)  
+            // .then(console.log)  
+        // .then(data => {
+            //     return new User (this.id, this.name, this.age)
+            // })
+    }
+    
+    updateAge(age){
+        this.age = age
+        return db.result(`update users set age=$1 where id=$2`,[age,this.id])
+            // .then(console.log)  
         // .then(data => {
             //     return new User (this.id, this.name, this.age)
             // })

@@ -32,7 +32,6 @@ static getAllPlaces(){
 }
 
 
-
 static getPlaceById(id){
     return db.one('select * from place where id=$1', [id])
     .then(data => {
@@ -42,6 +41,10 @@ static getPlaceById(id){
 }
 
 // update
+
+
+
+
 // delete
 
 
