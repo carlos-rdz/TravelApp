@@ -10,13 +10,33 @@ app.use(bodyParser.json());
 const users = require('./models/users');
 const place = require('./models/place');
 
+const page = require('./views/page')
+const placeList = require('./views/placelist')
 
-// users.getUserByID(2)
-//     .then(data => {return data.updateAge(10000)})
-//     .then(console.log)
 
-// place.getAllPlaces()
-//     .then(console.log)
+app.get('/',(req,res) => {
+    res.send(page('Heeeeeellllo'))
+});
+
+
+
+app.post('/users',(req,res) => {
+    users.createUser(req.body.name,req.body.age)
+        .then(theUser => {
+            res.send(theUser);
+        })
+});
+
+app.post('/users/:id([0-9]+)',(req,res) => {
+    const id = req.params.id;
+    const newName = req.body.name
+
+    users.getUserByID(id)
+        .then(theUser => {
+            theUser.updateUserName(newName);
+        })
+        
+});
 
 app.get('/users',(req,res) => {
     // need to add a get all
@@ -26,16 +46,6 @@ app.get('/users',(req,res) => {
         })
 });
 
-
-
-app.post('/users',(req,res) => {
-    // console.log(req.body);
-    users.createUser(req.body.name,req.body.age)
-        .then(theUser => {
-            res.send(theUser);
-        })
-    // res.send('ok')
-});
 
 app.get('/users/:id([0-9]+)',(req,res) => {
     users.getUserByID(req.params.id)
@@ -53,10 +63,12 @@ app.listen(3000, () => {
 
 
 app.get('/place',(req,res) => {
-    // need to add a get all
     place.getAllPlaces()
     .then(places => {
-        res.send(places);
+
+        const placeUL = placeList(places)
+        const thePage = page(placeUL);
+        res.send(thePage);
     })
 });
 
