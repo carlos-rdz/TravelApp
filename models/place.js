@@ -40,6 +40,14 @@ static getPlaceById(id){
     // .then(console.log)
 }
 
+static getPlaceByUserId(id){
+    return db.one('select * from place where user_id=$1', [id])
+    .then(data => {
+        return new Place (data.id, data.location, data.image, data.user_id);
+    })
+    // .then(console.log)
+}
+
 // update
 
 

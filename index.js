@@ -3,6 +3,8 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 
+app.use(express.static('public'))
+
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -12,6 +14,8 @@ const place = require('./models/place');
 
 const page = require('./views/page')
 const placeList = require('./views/placelist')
+const userList = require('./views/userlist')
+const showUser = require('./views/showUser')
 
 
 app.get('/',(req,res) => {
@@ -42,7 +46,7 @@ app.get('/users',(req,res) => {
     // need to add a get all
     users.getAll()
         .then(users => {
-            res.send(users);
+            res.send(page(userList(users)));
         })
 });
 
@@ -50,7 +54,7 @@ app.get('/users',(req,res) => {
 app.get('/users/:id([0-9]+)',(req,res) => {
     users.getUserByID(req.params.id)
     .then(user => {
-        res.send(user)
+        res.send(page(showUser(user)))
     })
     .catch(err => {
         res.send(err)
@@ -65,7 +69,7 @@ app.listen(3000, () => {
 app.get('/place',(req,res) => {
     place.getAllPlaces()
     .then(places => {
-
+// need to refactor below
         const placeUL = placeList(places)
         const thePage = page(placeUL);
         res.send(thePage);
