@@ -40,12 +40,18 @@ static getPlaceById(id){
     // .then(console.log)
 }
 
+
+// need to fix this
 static getPlaceByUserId(id){
-    return db.one('select * from place where user_id=$1', [id])
+    return db.any('select * from place where user_id=$1', [id])
     .then(data => {
-        return new Place (data.id, data.location, data.image, data.user_id);
+        let placesArray = data.map(object => {
+
+            return new Place (data.id, data.location, data.image, data.user_id);
+        })
+    return placesArray
     })
-    // .then(console.log)
+    .then(console.log)
 }
 
 // update

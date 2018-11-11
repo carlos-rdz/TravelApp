@@ -17,12 +17,12 @@ const placeList = require('./views/placelist')
 const userList = require('./views/userlist')
 const showUser = require('./views/showUser')
 
+place.getPlaceByUserId(1)
+
 
 app.get('/',(req,res) => {
     res.send(page('Heeeeeellllo'))
 });
-
-
 
 app.post('/users',(req,res) => {
     users.createUser(req.body.name,req.body.age)
@@ -52,6 +52,16 @@ app.get('/users',(req,res) => {
 
 
 app.get('/users/:id([0-9]+)',(req,res) => {
+    users.getUserByID(req.params.id)
+    .then(user => {
+        res.send(page(showUser(user)))
+    })
+    .catch(err => {
+        res.send(err)
+    })
+});
+
+app.get('/users/:id([0-9]+)/place',(req,res) => {
     users.getUserByID(req.params.id)
     .then(user => {
         res.send(page(showUser(user)))

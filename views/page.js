@@ -13,7 +13,7 @@ function page(content){
         ${content}
         
     </body>
-    </html>`;
+    </html>`;       
 }
 
 
