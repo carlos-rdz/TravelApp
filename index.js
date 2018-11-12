@@ -17,7 +17,12 @@ const placeList = require('./views/placelist')
 const userList = require('./views/userlist')
 const showUser = require('./views/showUser')
 
-place.getPlaceByUserId(1)
+place.getPlaceById(1)
+    .then(data => {return data.updatePlaceLocation("Myrtle St")})
+    .then(console.log)
+
+
+
 
 
 app.get('/',(req,res) => {

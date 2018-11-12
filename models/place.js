@@ -55,7 +55,10 @@ static getPlaceByUserId(id){
 }
 
 // update
-
+ updatePlaceLocation(location){
+    this.location = location ;
+    return db.result(`update place set location=$1 where id=$2`,[location,this.id]);
+}
 
 
 
