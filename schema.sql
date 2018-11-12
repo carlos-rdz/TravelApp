@@ -5,7 +5,7 @@ create table users
 name text,
 age integer,
 username varchar(200) not null,
-password varchar(200) not null
+pwhash varchar(200) not null
 );
 
 create table place

@@ -1,24 +1,30 @@
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+// var hash = bcrypt.hashSync("password", salt);
 // CREATE, RETRIEVE, UPDATE, DELETE
 
 
 const db = require('./db');
 
 class User {
-    constructor(id,name,age) {
+    constructor(id,name,age,username,password) {
         this.id = id;
         this.name = name;
         this.age = age;
+        this.username = username;
+        // this.password = password
     }
 // CREATE
-    static createUser(name,age){
-
+    static createUser(name,age,username,password){
+        const salt = bcrypt.genSaltSync(saltRounds)
+        const hash = bcrypt.hashSync(password,salt)
         return db.one(`insert into users
-        (name,age)
+        (name,age,username, pwhash)
         values
-        ($1,$2)
-        returning id`,[name,age])
+        ($1,$2,$3,$4)
+        returning id`,[name,age,username,hash])
             .then(data => {
-                return new User (data.id, name, age);
+                return new User (data.id, name, age,username);
             })
 }
     // RETRIEVE
@@ -41,6 +47,16 @@ class User {
             .then(data => {
                 return new User (data.id, data.name, data.age)
             })
+            // .then(console.log)
+    }
+
+    static getHashByUsername(username){
+        return db.one(
+            `select pwhash from users
+            where username=$1`,[username]
+        )
+                
+            // })
             // .then(console.log)
     }
 

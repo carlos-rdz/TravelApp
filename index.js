@@ -1,4 +1,5 @@
 require('dotenv').config();
+const bcrypt = require('bcrypt');
 
 const express = require('express');
 const app = express();
@@ -17,7 +18,12 @@ const placeList = require('./views/placelist')
 const userList = require('./views/userlist')
 const showUser = require('./views/showUser')
 const userForm = require('./views/userForm')
+const signupForm = require('./views/signupForm')
+const loginForm = require('./views/loginForm')
 
+
+// users.createUser("TESTUSER2",1,"TESTUSER2","password")
+//     .then(console.log)
 // place.getPlaceById(1)
 //     .then(data => {return data.updatePlaceLocation("Myrtle St")})
 //     .then(console.log)
@@ -104,7 +110,7 @@ app.get('/users/:id([0-9]+)/place',(req,res) => {
 app.get('/place',(req,res) => {
     place.getAllPlaces()
     .then(places => {
-// need to refactor below
+        // need to refactor below
         const placeUL = placeList(places)
         const thePage = page(placeUL);
         res.send(thePage);
@@ -120,4 +126,61 @@ app.get('/place/:id([0-9]+)',(req,res) => {
     .catch(err => {
         res.send(err)
     })
+});
+        
+
+app.get('/register',(req,res) => {
+    res.send(page(signupForm()))
+    
+});
+
+app.post('/register',(req,res) => {
+    
+    const name = req.body.name
+    const age = req.body.age
+    const username = req.body.username
+    const password = req.body.password
+    
+    users.createUser(name,age,username,password)
+    .then(res.redirect(`/welcome`))
+});
+                
+app.get('/welcome',(req,res) => {
+    res.send(page("Welcome!!!!!"))
+    
+});
+
+
+// login
+
+
+
+app.get('/login',(req,res) => {
+    res.send(page(loginForm()))
+    
+});
+
+app.post('/login',(req,res) => {
+    
+    const username = req.body.username
+    const password = req.body.password
+
+    users.getHashByUsername(username)
+        .then(data => {
+            if (bcrypt.compareSync("password",data.pwhash)){
+                res.redirect('/welcome')
+            } else {
+                res.redirect('/login')
+            }
+
+        })
+
+    
+   
+    // .then(res.redirect(`/welcome`))
+});
+                
+app.get('/welcomeback',(req,res) => {
+    res.send(page("Welcome!!!!!"))
+    
 });
