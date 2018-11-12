@@ -16,27 +16,40 @@ const page = require('./views/page')
 const placeList = require('./views/placelist')
 const userList = require('./views/userlist')
 const showUser = require('./views/showUser')
+const userForm = require('./views/userForm')
 
-place.getPlaceById(1)
-    .then(data => {return data.updatePlaceLocation("Myrtle St")})
-    .then(console.log)
+// place.getPlaceById(1)
+//     .then(data => {return data.updatePlaceLocation("Myrtle St")})
+//     .then(console.log)
+
+// place.createPlace("Hotlanta",1)
+
+// place.getPlacesByUserId(1)
+//     .then(console.log)
+
+// place.getPlaceById(2)
+//     .then(data => {return data.deleteThisLocation()})
+//     .then(console.log)
 
 
+app.listen(3000, () => {
+    console.log('your express app is readddddy')
+});
 
 
-
+ 
 app.get('/',(req,res) => {
     res.send(page('Heeeeeellllo'))
 });
 
-app.post('/users',(req,res) => {
-    users.createUser(req.body.name,req.body.age)
-        .then(theUser => {
-            res.send(theUser);
-        })
-});
+// app.post('/users',(req,res) => {
+//     users.createUser(req.body.name,req.body.age)
+//         .then(theUser => {
+//             res.send(theUser);
+//         })
+// });
 
-app.post('/users/:id([0-9]+)',(req,res) => {
+app.post('/users/:id([0-9]+)/edit',(req,res) => {
     const id = req.params.id;
     const newName = req.body.name
 
@@ -44,6 +57,9 @@ app.post('/users/:id([0-9]+)',(req,res) => {
         .then(theUser => {
             theUser.updateUserName(newName);
         })
+        .then(res.redirect(`/users`))
+        // need to add redirect here
+
         
 });
 
@@ -55,7 +71,15 @@ app.get('/users',(req,res) => {
         })
 });
 
-
+app.get('/users/:id([0-9]+)/edit',(req,res) => {
+    users.getUserByID(req.params.id)
+    .then(user => {
+        res.send(page(userForm(user)))
+    })
+    .catch(err => {
+        res.send(err)
+    })
+});
 app.get('/users/:id([0-9]+)',(req,res) => {
     users.getUserByID(req.params.id)
     .then(user => {
@@ -74,10 +98,6 @@ app.get('/users/:id([0-9]+)/place',(req,res) => {
     .catch(err => {
         res.send(err)
     })
-});
-
-app.listen(3000, () => {
-    console.log('your express app is readddddy')
 });
 
 

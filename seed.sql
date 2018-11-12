@@ -1,7 +1,7 @@
 insert into users
-(name,age)
+(name,age, username, password)
 values
-('Carlos',24),('James',50),('RandomUser',100);
+('Carlos',24,'Carlos','Password'),('James',50,'James','Password'),('RandomUser',100,'RandomUser','Password');
 
 
 insert into place

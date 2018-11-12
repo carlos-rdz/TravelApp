@@ -42,16 +42,16 @@ static getPlaceById(id){
 
 
 // need to fix this
-static getPlaceByUserId(id){
+static getPlacesByUserId(id){
     return db.any('select * from place where user_id=$1', [id])
     .then(data => {
         let placesArray = data.map(object => {
 
-            return new Place (data.id, data.location, data.image, data.user_id);
+            return new Place (object.id, object.location, object.image, object.user_id);
         })
     return placesArray
     })
-    .then(console.log)
+    // .then(console.log)
 }
 
 // update
@@ -63,6 +63,10 @@ static getPlaceByUserId(id){
 
 
 // delete
+
+deleteThisLocation(){
+    return db.result('delete from place where id=$1',[this.id])
+}
 
 
 }

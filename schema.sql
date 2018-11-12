@@ -3,7 +3,9 @@
 create table users
 (id serial primary key,
 name text,
-age integer
+age integer,
+username varchar(200) not null,
+password varchar(200) not null
 );
 
 create table place
