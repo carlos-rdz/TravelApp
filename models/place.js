@@ -51,6 +51,7 @@ static getPlacesByUserId(id){
         })
     return placesArray
     })
+    .catch("No places for this user")
     // .then(console.log)
 }
 

@@ -121,10 +121,10 @@ app.get('/place',(req,res) => {
 app.get('/place/:id([0-9]+)',(req,res) => {
     place.getPlaceById(req.params.id)
     .then(place => {
-        res.send(place)
+        res.send(page(place.location))
     })
     .catch(err => {
-        res.send(err)
+        res.send(page("This user does not have any places!"))
     })
 });
         
@@ -177,10 +177,9 @@ app.post('/login',(req,res) => {
 
     
    
-    // .then(res.redirect(`/welcome`))
 });
                 
-app.get('/welcomeback',(req,res) => {
-    res.send(page("Welcome!!!!!"))
+// app.get('/welcomeback',(req,res) => {
+//     res.send(page("Welcome!!!!!"))
     
-});
+// });

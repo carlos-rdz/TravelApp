@@ -2,7 +2,7 @@ function userToItem(userObject){
     // need to fix first route
     return `
     <li>
-    <a href="users/${userObject.id}/place">
+    <a href="place/${userObject.id}/">
     ${userObject.name}
     </a>
     <a href="/users/${userObject.id}/edit">
