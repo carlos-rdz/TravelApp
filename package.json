@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "reset-db": "dropdb travelApp; createdb travelApp; psql -f schema.sql travelApp; psql -f seed.sql travelApp"
+    "reset-db": "dropdb travelApp; createdb travelApp; psql -f schema.sql travelApp; psql -f seed.sql travelApp; psql travelApp < node_modules/connect-pg-simple/table.sql"
   },
   "author": "",
   "license": "ISC",

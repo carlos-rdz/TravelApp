@@ -21,6 +21,30 @@ const userForm = require('./views/userForm')
 const signupForm = require('./views/signupForm')
 const loginForm = require('./views/loginForm')
 
+// const session = require('express-session');
+// const pgSession = require('connect-pg-simple')(session);
+const db = require('./models/db');
+// app.use(session({
+//     store: new pgSession({
+//         pgPromise: db
+//     }),
+//     secret: 'asdfasdfasdfasd',
+//     saveUninitialized: false
+// }));
+
+
+
+app.use((req, res, next) => {
+
+    let isLoggedin = false
+    if (req.session.user) {
+        isLoggedin = true
+    }
+     
+    console.log(`A user is logged in ${isLoggedin}`)
+
+    next();
+});
 
 // users.createUser("TESTUSER2",1,"TESTUSER2","password")
 //     .then(console.log)
@@ -142,11 +166,15 @@ app.post('/register',(req,res) => {
     const password = req.body.password
     
     users.createUser(name,age,username,password)
+    .then(newUser => {
+        req.session.user = newUser
+    })
     .then(res.redirect(`/welcome`))
 });
                 
 app.get('/welcome',(req,res) => {
-    res.send(page("Welcome!!!!!"))
+    // res.send(page("Welcome!!!!!"))
+    res.send(page(`${req.session.user}`))
     
 });
 
@@ -167,7 +195,8 @@ app.post('/login',(req,res) => {
 
     users.getHashByUsername(username)
         .then(data => {
-            if (bcrypt.compareSync("password",data.pwhash)){
+            if (bcrypt.compareSync(password,data.pwhash)){
+                req.session.user = username
                 res.redirect('/welcome')
             } else {
                 res.redirect('/login')
@@ -178,6 +207,16 @@ app.post('/login',(req,res) => {
     
    
 });
+
+
+app.post('/logout',(req,res) => {
+
+    req.session.destroy();
+    res.redirect('/')
+
+
+
+})
                 
 // app.get('/welcomeback',(req,res) => {
 //     res.send(page("Welcome!!!!!"))

@@ -4,7 +4,7 @@ create table users
 (id serial primary key,
 name text,
 age integer,
-username varchar(200) not null,
+username varchar(200) unique not null,
 pwhash varchar(200) not null
 );
 

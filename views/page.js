@@ -1,4 +1,8 @@
-function page(content){
+
+const {logoutButton, loginOrRegister} = require('./helper');
+
+
+function page(content, isLoggedIn=false){
     return `<!DOCTYPE html>
     <html lang="en">
     <head>
@@ -10,8 +14,12 @@ function page(content){
         <link rel="stylesheet" href="/stylesheets/index.css">
     </head>
     <body>
+    <div>
+        ${
+            isLoggedIn ? logoutButton() : loginOrRegister()
+        }
         ${content}
-        
+    </div>
     </body>
     </html>`;       
 }

@@ -60,6 +60,10 @@ class User {
             // .then(console.log)
     }
 
+    static passwordDoesMatch(username,password){
+        
+    }
+
 
     // Update
 
