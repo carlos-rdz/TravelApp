@@ -7,7 +7,7 @@ values
 insert into place
 (location, user_id)
 values
-('New York',1),('Atlanta',2),('Mars',3),('----',4);
+('New York',1),('Atlanta',2),('Mars',3),('----',4),('Atlanta2',25;
 
 
 
