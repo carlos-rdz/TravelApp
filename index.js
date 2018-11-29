@@ -1,3 +1,5 @@
+// home page => profile => user interactions
+
 require('dotenv').config();
 const bcrypt = require('bcrypt');
 
